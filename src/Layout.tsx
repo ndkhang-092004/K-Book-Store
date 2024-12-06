@@ -1,5 +1,11 @@
+import { Outlet } from "react-router";
+
 function Layout() {
-  return <div>Typescript with React</div>;
+  return (
+    <main className='layout'>
+      <Outlet />
+    </main>
+  );
 }
 
 export default Layout;
