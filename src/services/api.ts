@@ -16,3 +16,8 @@ export const registerAPI = (registerValues: RegisterProps) => {
   const URL = "/api/v1/user/register";
   return axios.post<IBackendRes<IRegister>>(URL, registerValues);
 };
+
+export const fetchAccountAPI = () => {
+  const URL = "/api/v1/auth/account";
+  return axios.get<IBackendRes<IFetchAccount>>(URL);
+};

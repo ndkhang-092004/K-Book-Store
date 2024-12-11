@@ -1,3 +1,11 @@
+import { useAppContext } from "@/components/context/app.context";
+
 export default function Home() {
-  return <div>Home Page</div>;
+  const { user } = useAppContext();
+
+  return (
+    <div>
+      <h1>{user?.fullName}</h1>
+    </div>
+  );
 }
