@@ -5,7 +5,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>{user?.fullName}</h1>
+      <h1>{user?.fullName ?? "You may want to login!"}</h1>
     </div>
   );
 }

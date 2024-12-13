@@ -1,5 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import { fetchAccountAPI } from "@/services/api";
+import { delay } from "@/utils/delay";
+import { createContext, useContext, useEffect, useState } from "react";
+import { SyncLoader } from "react-spinners";
 
 interface IAppContext {
   isAuthenticated: boolean;
@@ -7,7 +10,7 @@ interface IAppContext {
   isLoading: boolean;
   setIsLoading: (prop: boolean) => void;
   user: IUser | null;
-  setUser: (prop: IUser) => void;
+  setUser: (prop: IUser | null) => void;
 }
 
 const userContext = createContext<IAppContext | null>(null);
@@ -21,19 +24,51 @@ export function ContextProvider({ children }: AppContextProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
 
+  useEffect(() => {
+    const fetchAccount = async () => {
+      const res = await fetchAccountAPI();
+      await delay(1000); //Add some delay
+      if (res.data?.user) {
+        setUser(res.data.user);
+        setIsAuthenticated(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchAccount();
+  }, [setUser, setIsLoading, setIsAuthenticated]);
+
   return (
-    <userContext.Provider
-      value={{
-        isAuthenticated,
-        user,
-        setIsAuthenticated,
-        setUser,
-        isLoading,
-        setIsLoading,
-      }}
-    >
-      {children}
-    </userContext.Provider>
+    <>
+      {!isLoading ? (
+        <userContext.Provider
+          value={{
+            isAuthenticated,
+            user,
+            setIsAuthenticated,
+            setUser,
+            isLoading,
+            setIsLoading,
+          }}
+        >
+          {children}
+        </userContext.Provider>
+      ) : (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <SyncLoader color='rgb(9, 137, 184)' loading={isLoading} />
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

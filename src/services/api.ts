@@ -21,3 +21,8 @@ export const fetchAccountAPI = () => {
   const URL = "/api/v1/auth/account";
   return axios.get<IBackendRes<IFetchAccount>>(URL);
 };
+
+export const logoutAPI = () => {
+  const URL = "/api/v1/auth/logout";
+  return axios.post<IBackendRes<IFetchAccount>>(URL);
+};
