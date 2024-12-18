@@ -22,7 +22,7 @@ export default function LayoutAdmin() {
             >
               <HeaderUser />
             </Header>
-            <Content style={{ padding: "0 2rem" }}>
+            <Content style={{ padding: "2rem 2rem", minHeight: "100vh" }}>
               <Outlet />
             </Content>
           </Layout>
